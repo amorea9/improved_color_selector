@@ -1,12 +1,12 @@
 "use strict";
 
+//global variables here
 let userInput;
 let rgbToHexValue;
 let rgbToHslValue;
 let hexToRgbValue;
 
 document.addEventListener("DOMContentLoaded", init);
-//global variables here
 
 function init() {
   document.querySelector("#color_selector").addEventListener("input", getUserInput);
@@ -14,89 +14,71 @@ function init() {
 
 //MODEL
 function getUserInput() {
+  //reads the value
   userInput = document.querySelector("#color_selector").value;
-
-  rgbToHexValue = rgbToHex(userInput);
+  rgbToHexValue = userInput; //input value is in hex
   rgbToHslValue = rgbToHsl(userInput);
   hexToRgbValue = hexToRgb(userInput);
-  //use event listener to know which color has been selected
-  //userColorSelection.addEventListener("input", showSelectedColor);
+  //call function to display colors in the view
   showSelectedColor();
 }
 
 //VIEW
 
 function showSelectedColor() {
-  //possibly a delegator for the following functions to display stuff
-  //   console.log("hexTorgbvalue:", hexToRgbValue);
-
+  //display the colors
   displayColor(hexToRgbValue);
-
-  displayRgb(hexToRgbValue);
   displayHex(rgbToHexValue);
   displayHsl(rgbToHslValue);
 }
 
 function displayColor(hexToRgbValue) {
-  //display the color as background
+  //display the color as background and rgb
   document.querySelector(".color").style.backgroundColor = hexToRgbValue;
-}
-function displayHex(rgbToHexValue) {
-  //hex
-  document.querySelector(".hex").textContent = rgbToHexValue.toUpperCase();
-}
-function displayRgb(hexToRgbValue) {
-  //rgb
   document.querySelector(".rgb").textContent = hexToRgbValue;
 }
+function displayHex(rgbToHexValue) {
+  //hex value but uppercase
+  document.querySelector(".hex").textContent = rgbToHexValue.toUpperCase();
+}
+
 function displayHsl(rgbToHslValue) {
-  //hsl
+  //hsl value
   document.querySelector(".hsl").textContent = rgbToHslValue;
 }
 
 //CONTROLLER
+
+//conversion to RGB
 function hexToRgb(userInput) {
-  let r = userInput.substring(1, 3);
-
-  r = parseInt(r, 16);
-
-  let g = userInput.substring(3, 5);
-  g = parseInt(g, 16);
-  let b = userInput.substring(5, 7);
-  b = parseInt(b, 16);
-
-  //   //create object from template
-  //   let rgb = Object.create(Rgb);
-  //   rgb.r = r;
-  //   rgb.g = g;
-  //   rgb.b = b;
-
+  let r = parseInt(userInput.substring(1, 3), 16);
+  let g = parseInt(userInput.substring(3, 5), 16);
+  let b = parseInt(userInput.substring(5, 7), 16);
   return `Rgb( ${r}, ${g}, ${b})`;
 }
-// console.log("hexToRgb:", hexToRgb(userInput));
 
-function rgbToHex(r, g, b) {
-  r = userInput.substring(1, 3).toString(16);
-  //only two digits of r
-  g = userInput.substring(3, 5).toString(16);
+//conversion to hex -- not needed as the input value comes in hex
+// function rgbToHex(r, g, b) {
+//   r = userInput.substring(1, 3).toString(16);
+//   //only two digits of r
+//   g = userInput.substring(3, 5).toString(16);
 
-  b = userInput.substring(5, 7).toString(16);
+//   b = userInput.substring(5, 7).toString(16);
 
-  if (r.length <= 1) {
-    r = "0" + r;
-  }
+//   if (r.length <= 1) {
+//     r = "0" + r;
+//   }
 
-  if (g.length <= 1) {
-    g = "0" + g;
-  }
-  if (b.length <= 1) {
-    b = "0" + b;
-  }
-  return `#${r}${g}${b}`;
-}
+//   if (g.length <= 1) {
+//     g = "0" + g;
+//   }
+//   if (b.length <= 1) {
+//     b = "0" + b;
+//   }
+//   return `#${r}${g}${b}`;
+// }
 
-// console.log("rgbtoHEx:", rgbToHex(userInput)); it works
-
+//conversion to HSL
 function rgbToHsl(r, g, b) {
   r = parseInt(userInput.substring(1, 3), 16) / 255;
 
@@ -141,12 +123,3 @@ function rgbToHsl(r, g, b) {
 
   return `${h}, ${s}%, ${l}%`;
 }
-//console.log("rgbtoHsl:", rgbToHsl(userInput));working
-// function rgbToCSS(r, g, b) {
-//   r = parseInt(userInput.substring(userInput.indexOf("(") + 1, userInput.indexOf(",")), 10);
-
-//   g = parseInt(userInput.substring(userInput.indexOf(",") + 1, userInput.lastIndexOf(",")), 10);
-//   b = parseInt(userInput.substring(userInput.lastIndexOf(",") + 1, userInput.indexOf(")")), 10);
-
-//   return `rgb(${r}, ${g}, ${b})`;
-// }
